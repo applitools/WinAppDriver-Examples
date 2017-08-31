@@ -5,7 +5,7 @@ Windows Application Driver is a service to support Selenium-like UI Test Automat
 
 ## Getting Started
 
-*** More WinAppDriver information can be found [here](https://github.com/Microsoft/WinAppDriver) ***
+* More WinAppDriver information can be found [here](https://github.com/Microsoft/WinAppDriver) *
 
 ### System Requirements
 
