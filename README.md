@@ -5,6 +5,8 @@ Windows Application Driver is a service to support Selenium-like UI Test Automat
 
 ## Getting Started
 
+*** More WinAppDriver information can be found [here](https://github.com/Microsoft/WinAppDriver) ***
+
 ### System Requirements
 
 - Windows 10 PC
@@ -74,123 +76,6 @@ Windows Application Driver can run remotely on any Windows 10 machine with `WinA
    2. Add your applitools API Key.
    3. In terminal run: `rspec calculator.rb`
    
-### Attaching to an Existing App Window
-
-In some cases, you may want to test applications that are not launched in a conventional way like shown above. For instance, the Cortana application is always running and will not launch a UI window until triggered through **Start Menu** or a keyboard shortcut. In this case, you can create a new session in Windows Application Driver by providing the application top level window handle as a hex string (E.g. `0xB822E2`). This window handle can be retrieved from various methods including the **Desktop Session** mentioned above. This mechanism can also be used for applications that have unusually long startup times. Below is an example of creating a test session for the **Cortana** app after launching the UI using a keyboard shortcut and locating the window using the **Desktop Session**.
-
-```c#
-DesktopSession.Keyboard.SendKeys(Keys.Meta + "s" + Keys.Meta);
-
-var CortanaWindow = DesktopSession.FindElementByName("Cortana");
-var CortanaTopLevelWindowHandle = CortanaWindow.GetAttribute("NativeWindowHandle");
-CortanaTopLevelWindowHandle = (int.Parse(CortanaTopLevelWindowHandle)).ToString("x"); // Convert to Hex
-
-// Create session by attaching to Cortana top level window
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("appTopLevelWindow", CortanaTopLevelWindowHandle);
-CortanaSession = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
-
-// Use the session to control Cortana
-CortanaSession.FindElementByAccessibilityId("SearchTextBox").SendKeys("add");
-```
-
-
-## Supported Capabilities
-
-Below are the capabilities that can be used to create Windows Application Driver session.
-
-| Capabilities       	| Descriptions                                          	| Example                                               	|
-|--------------------	|-------------------------------------------------------	|-------------------------------------------------------	|
-| app                	| Application identifier or executable full path        	| Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge   	|
-| appArguments       	| Application launch arguments                          	| https://github.com/Microsoft/WinAppDriver             	|
-| appTopLevelWindow  	| Existing application top level window to attach to    	| `0xB822E2`                                            	|
-| appWorkingDir      	| Application working directory (Classic apps only)     	| `C:\Temp`                                             	|
-| platformName       	| Target platform name                                  	| Windows                                               	|
-| platformVersion    	| Target platform version                               	| 1.0                                                   	|
-
-
-## Supported APIs
-
-| HTTP   	| Path                                              	|
-|--------	|---------------------------------------------------	|
-| GET    	| /status                                           	|
-| POST   	| /session                                          	|
-| GET    	| /sessions                                         	|
-| DELETE 	| /session/:sessionId                               	|
-| POST   	| /session/:sessionId/appium/app/launch             	|
-| POST   	| /session/:sessionId/appium/app/close              	|
-| POST   	| /session/:sessionId/back                          	|
-| POST   	| /session/:sessionId/buttondown                    	|
-| POST   	| /session/:sessionId/buttonup                      	|
-| POST   	| /session/:sessionId/click                         	|
-| POST   	| /session/:sessionId/doubleclick                   	|
-| POST   	| /session/:sessionId/element                       	|
-| POST   	| /session/:sessionId/elements                      	|
-| POST   	| /session/:sessionId/element/active                	|
-| GET    	| /session/:sessionId/element/:id/attribute/:name   	|
-| POST   	| /session/:sessionId/element/:id/clear             	|
-| POST   	| /session/:sessionId/element/:id/click             	|
-| GET    	| /session/:sessionId/element/:id/displayed         	|
-| GET    	| /session/:sessionId/element/:id/element           	|
-| GET    	| /session/:sessionId/element/:id/elements          	|
-| GET    	| /session/:sessionId/element/:id/enabled           	|
-| GET    	| /session/:sessionId/element/:id/equals            	|
-| GET    	| /session/:sessionId/element/:id/location          	|
-| GET    	| /session/:sessionId/element/:id/location_in_view  	|
-| GET    	| /session/:sessionId/element/:id/name              	|
-| GET    	| /session/:sessionId/element/:id/screenshot        	|
-| GET    	| /session/:sessionId/element/:id/selected          	|
-| GET    	| /session/:sessionId/element/:id/size              	|
-| GET    	| /session/:sessionId/element/:id/text              	|
-| POST   	| /session/:sessionId/element/:id/value             	|
-| POST   	| /session/:sessionId/forward                       	|
-| POST   	| /session/:sessionId/keys                          	|
-| GET    	| /session/:sessionId/location                      	|
-| POST   	| /session/:sessionId/moveto                        	|
-| GET    	| /session/:sessionId/orientation                   	|
-| GET    	| /session/:sessionId/screenshot                    	|
-| GET    	| /session/:sessionId/source                        	|
-| POST   	| /session/:sessionId/timeouts                      	|
-| POST   	| /session/:sessionId/timeouts/implicit_wait        	|
-| GET    	| /session/:sessionId/title                         	|
-| POST   	| /session/:sessionId/touch/click                   	|
-| POST   	| /session/:sessionId/touch/doubleclick             	|
-| POST   	| /session/:sessionId/touch/down                    	|
-| POST   	| /session/:sessionId/touch/flick                   	|
-| POST   	| /session/:sessionId/touch/longclick               	|
-| POST   	| /session/:sessionId/touch/move                    	|
-| POST   	| /session/:sessionId/touch/multi/perform           	|
-| POST   	| /session/:sessionId/touch/scroll                  	|
-| POST   	| /session/:sessionId/touch/up                      	|
-| GET    	| /session/:sessionId/window                        	|
-| DELETE 	| /session/:sessionId/window                        	|
-| POST   	| /session/:sessionId/window                        	|
-| GET    	| /session/:sessionId/window/handles                	|
-| POST   	| /session/:sessionId/window/maximize               	|
-| POST   	| /session/:sessionId/window/size                   	|
-| GET    	| /session/:sessionId/window/size                   	|
-| POST   	| /session/:sessionId/window/:windowHandle/size     	|
-| GET    	| /session/:sessionId/window/:windowHandle/size     	|
-| POST   	| /session/:sessionId/window/:windowHandle/position 	|
-| GET    	| /session/:sessionId/window/:windowHandle/position 	|
-| POST   	| /session/:sessionId/window/:windowHandle/maximize 	|
-| GET    	| /session/:sessionId/window_handle                 	|
-| GET    	| /session/:sessionId/window_handles                	|
-
-
-## Supported Locators to Find UI Elements
-
-Windows Application Driver supports various locators to find UI element in the application session. The table below shows all supported locator strategies with their corresponding UI element attributes shown in **inspect.exe**.
-
-| Client API                   	| Locator Strategy 	| Matched Attribute in inspect.exe       	| Example      	|
-|------------------------------	|------------------	|----------------------------------------	|--------------	|
-| FindElementByAccessibilityId 	| accessibility id 	| AutomationId                           	| AppNameTitle 	|
-| FindElementByClassName       	| class name       	| ClassName                              	| TextBlock    	|
-| FindElementById              	| id               	| RuntimeId (decimal)                    	| 42.333896.3.1	|
-| FindElementByName            	| name             	| Name                                   	| Calculator   	|
-| FindElementByTagName         	| tag name         	| LocalizedControlType (upper camel case)	| Text         	|
-
-
 ## Inspecting UI Elements
 
 The latest Microsoft Visual Studio version by default includes the Windows SDK with a great tool to inspect the application you are testing. This tool allows you to see every UI element/node that you can query using Windows Application Driver. This **inspect.exe** tool can be found under the Windows SDK folder which is typically `C:\Program Files (x86)\Windows Kits\10\bin\x86`
