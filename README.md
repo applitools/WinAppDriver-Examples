@@ -47,7 +47,7 @@ Windows Application Driver can run remotely on any Windows 10 machine with `WinA
 5. Execute the test script on the *test runner* to perform the test actions against the test application on the remote *test machine*.
 
 ### Running the examples
-* C#
+* C# (Currently does not work)
    1. Open `CalculatorTest.sln` in Visual Studio
    2. Add your Applitools API key in ScenarioStandard.cs
    3. Select **Test** > **Windows** > **Test Explorer**
