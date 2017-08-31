@@ -61,7 +61,7 @@ Windows Application Driver can run remotely on any Windows 10 machine with `WinA
    4. Add your Applitools API key.
    5. Right click and select run test.
 
-* JavaScript (Current does not work)
+* JavaScript (Currently does not work)
    1. Open calculator.js in your favorite editor.
    2. Add your applitools API key.
    3. In terminal run: `node calculator.js`
