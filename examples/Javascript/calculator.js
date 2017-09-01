@@ -3,10 +3,9 @@
 function main() {
     
     var webdriver = require('selenium-webdriver');
+    
     var desiredCaps = {
         browserName: '',
-        deviceName: 'DEVICE_NAME',
-        platformVersion: 'PLATFORM_VERSION',
         platformName: 'WINDOWS',
         app: 'Microsoft.WindowsCalculator_8wekyb3d8bbwe!App'
     };
@@ -20,17 +19,19 @@ function main() {
     // Initialize the eyes SDK and set your private API key.
     var Eyes = require("eyes.selenium").Eyes;
     var eyes = new Eyes();
+    
     eyes.setApiKey("your_applitools_key");
 
     try {
         
         //driver.findElement(webdriver.By.name('Clear')).click();
         //driver.findElement(webdriver.By.name('Seven')).click();
+        
         // Start the test.
-        eyes.open(driver, "Contacts", "My first Appium native JS test!");
+        eyes.open(driver, "Windows Calculator", "WinAppDriver JavaScript");
 
         // Visual testing.
-        eyes.checkWindow("Contact list!");
+        eyes.checkWindow("Equals 7");
 
         // End the test.
         eyes.close();
