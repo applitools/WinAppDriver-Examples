@@ -37,7 +37,7 @@ public class CalculatorTest {
         driver.findElement(By.name("Seven")).click();
         driver.findElement(By.name("Equals")).click();
         eyes.checkWindow("Equals 8");
-        TestResults results = eyes.close();
+        TestResults results = eyes.close(false);
         assertEquals(true, results.isPassed());
     }
 
