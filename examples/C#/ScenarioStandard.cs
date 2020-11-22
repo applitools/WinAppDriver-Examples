@@ -19,7 +19,7 @@ using OpenQA.Selenium.Appium.Windows;
 using System.Threading;
 using System;
 using System.Drawing;
-using Applitools.Selenium;
+using Applitools.Appium;
 
 namespace CalculatorTest
 {
@@ -35,7 +35,6 @@ namespace CalculatorTest
             session.Manage().Window.Size = new Size(700, 700); //for responsive design testing...
 
             Eyes eyes = new Eyes();
-            eyes.ApiKey = "your_applitools_key";
 
             try
             {

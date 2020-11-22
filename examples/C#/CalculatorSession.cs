@@ -15,9 +15,11 @@
 //******************************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
+using System.Net;
 
 namespace CalculatorTest
 {
@@ -30,18 +32,19 @@ namespace CalculatorTest
 
         public static void Setup(TestContext context)
         {
+            System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             // Launch Calculator application if it is not yet launched
             if (session == null)
             {
                 // Create a new session to bring up an instance of the Calculator application
                 // Note: Multiple calculator windows (instances) share the same process Id
-                DesiredCapabilities appCapabilities = new DesiredCapabilities();
-                appCapabilities.SetCapability("app", CalculatorAppId);
-                appCapabilities.SetCapability("deviceName", "WindowsPC");
-                session = new WindowsDriver<WindowsElement>(new Uri(WindowsApplicationDriverUrl), appCapabilities);
+                AppiumOptions options = new AppiumOptions();
+                options.AddAdditionalCapability("app", CalculatorAppId);
+                options.AddAdditionalCapability("deviceName", "WindowsPC");
+                session = new WindowsDriver<WindowsElement>(options);
                 Assert.IsNotNull(session);
                 // Set implicit timeout to 1.5 seconds to make element search to retry every 500 ms for at most three times
-                session.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(1.5));
+                session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1.5);
             }
         }
 
